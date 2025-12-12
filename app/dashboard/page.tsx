@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState } from "react";
+import Link from "next/link";
 import {
   AlertCircle,
   AlertTriangle,
@@ -13,8 +13,8 @@ import {
   FileWarning,
   Calendar,
   ChevronLeft,
-  ChevronRight
-} from 'lucide-react';
+  ChevronRight,
+} from "lucide-react";
 import {
   employees,
   incidents,
@@ -25,15 +25,19 @@ import {
   getExpiredCertifications,
   getOutdatedModules,
   incidentHeatmapData,
-  getTrainingById
-} from '@/lib/mock-data';
-import { format, parseISO } from 'date-fns';
+  getTrainingById,
+} from "@/lib/mock-data";
+import { format, parseISO } from "date-fns";
 
 export default function DashboardPage() {
-  const [activityView, setActivityView] = useState<'weekly' | 'monthly'>('weekly');
-  const [heatmapMonth, setHeatmapMonth] = useState('2024-11');
+  const [activityView, setActivityView] = useState<"weekly" | "monthly">(
+    "weekly"
+  );
+  const [heatmapMonth, setHeatmapMonth] = useState("2024-11");
 
-  const activeIncidents = getActiveIncidents().sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
+  const activeIncidents = getActiveIncidents().sort(
+    (a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()
+  );
   const daysSinceLastIncident = getDaysSinceLastIncident();
   const overdueTraining = getOverdueTraining();
   const expiredCerts = getExpiredCertifications();
@@ -43,55 +47,87 @@ export default function DashboardPage() {
   const alerts = [
     ...expiredCerts.map(({ employee, certification }) => ({
       id: `cert-${certification.id}`,
-      type: 'error' as const,
+      type: "error" as const,
       icon: AlertCircle,
-      title: 'Expired Certification',
-      description: `${employee.name}'s ${certification.name} expired on ${format(parseISO(certification.expirationDate), 'MMM d, yyyy')}`,
-      link: `/employees/${employee.id}`
+      title: "Expired Certification",
+      description: `${employee.name}'s ${
+        certification.name
+      } expired on ${format(
+        parseISO(certification.expirationDate),
+        "MMM d, yyyy"
+      )}`,
+      link: `/employees/${employee.id}`,
     })),
     ...overdueTraining.map(({ employee, assignment, training }) => ({
       id: `training-${assignment.id}`,
-      type: 'warning' as const,
+      type: "warning" as const,
       icon: Clock,
-      title: 'Overdue Training',
-      description: `${employee.name} - ${training.title} was due ${format(parseISO(assignment.dueDate), 'MMM d, yyyy')}`,
-      link: `/employees/${employee.id}`
+      title: "Overdue Training",
+      description: `${employee.name} - ${training.title} was due ${format(
+        parseISO(assignment.dueDate),
+        "MMM d, yyyy"
+      )}`,
+      link: `/employees/${employee.id}`,
     })),
-    ...outdatedModules.map(module => ({
+    ...outdatedModules.map((module) => ({
       id: `module-${module.id}`,
-      type: 'info' as const,
+      type: "info" as const,
       icon: FileWarning,
-      title: 'Outdated Training Module',
-      description: `${module.title} - Last updated ${format(parseISO(module.lastUpdated), 'MMM d, yyyy')}`,
-      link: `/training/${module.id}`
-    }))
+      title: "Outdated Training Module",
+      description: `${module.title} - Last updated ${format(
+        parseISO(module.lastUpdated),
+        "MMM d, yyyy"
+      )}`,
+      link: `/training/${module.id}`,
+    })),
   ];
 
   // Recent Activity
   const recentIncidents = incidents
-    .sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime())
+    .sort(
+      (a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()
+    )
     .slice(0, 3);
 
-  const recentTrainingCompleted = employees.flatMap(emp =>
-    emp.trainingAssignments
-      .filter(t => t.status === 'complete' && t.completedDate)
-      .map(t => ({
-        employee: emp,
-        assignment: t,
-        training: getTrainingById(t.trainingId)!
-      }))
-  )
-    .sort((a, b) => new Date(b.assignment.completedDate!).getTime() - new Date(a.assignment.completedDate!).getTime())
+  const recentTrainingCompleted = employees
+    .flatMap((emp) =>
+      emp.trainingAssignments
+        .filter((t) => t.status === "complete" && t.completedDate)
+        .map((t) => ({
+          employee: emp,
+          assignment: t,
+          training: getTrainingById(t.trainingId)!,
+        }))
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.assignment.completedDate!).getTime() -
+        new Date(a.assignment.completedDate!).getTime()
+    )
     .slice(0, 3);
 
   // Heatmap
-  const heatmapData = incidentHeatmapData[heatmapMonth as keyof typeof incidentHeatmapData] || [];
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const [year, month] = heatmapMonth.split('-');
+  const heatmapData =
+    incidentHeatmapData[heatmapMonth as keyof typeof incidentHeatmapData] || [];
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const [year, month] = heatmapMonth.split("-");
   const monthName = monthNames[parseInt(month) - 1];
 
   const changeMonth = (delta: number) => {
-    const [y, m] = heatmapMonth.split('-').map(Number);
+    const [y, m] = heatmapMonth.split("-").map(Number);
     let newMonth = m + delta;
     let newYear = y;
     if (newMonth < 1) {
@@ -101,14 +137,16 @@ export default function DashboardPage() {
       newMonth = 1;
       newYear++;
     }
-    setHeatmapMonth(`${newYear}-${String(newMonth).padStart(2, '0')}`);
+    setHeatmapMonth(`${newYear}-${String(newMonth).padStart(2, "0")}`);
   };
 
   return (
     <div className="p-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-600 mt-1">Welcome to Delong Safety Management System</p>
+        <p className="text-slate-600 mt-1">
+          Welcome to Delong Safety Management System
+        </p>
       </div>
 
       {/* Stats Cards */}
@@ -119,8 +157,10 @@ export default function DashboardPage() {
               <Users className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-900">{employees.length}</p>
               <p className="text-sm text-slate-500">Total Employees</p>
+              <p className="text-2xl font-bold text-slate-900">
+                {employees.length}
+              </p>
             </div>
           </div>
         </div>
@@ -131,8 +171,10 @@ export default function DashboardPage() {
               <BookOpen className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-900">{trainingModules.length}</p>
               <p className="text-sm text-slate-500">Training Modules</p>
+              <p className="text-2xl font-bold text-slate-900">
+                {trainingModules.length}
+              </p>
             </div>
           </div>
         </div>
@@ -143,8 +185,10 @@ export default function DashboardPage() {
               <AlertTriangle className="w-6 h-6 text-orange-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-900">{activeIncidents.length}</p>
               <p className="text-sm text-slate-500">Active Incidents</p>
+              <p className="text-2xl font-bold text-slate-900">
+                {activeIncidents.length}
+              </p>
             </div>
           </div>
         </div>
@@ -155,8 +199,10 @@ export default function DashboardPage() {
               <CheckCircle className="w-6 h-6 text-emerald-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-900">{daysSinceLastIncident}</p>
               <p className="text-sm text-slate-500">Days Since Last Incident</p>
+              <p className="text-2xl font-bold text-slate-900">
+                {daysSinceLastIncident}
+              </p>
             </div>
           </div>
         </div>
@@ -167,7 +213,9 @@ export default function DashboardPage() {
         <div className="lg:col-span-2">
           <div className="bg-white rounded-xl shadow-sm">
             <div className="p-6 border-b border-slate-100">
-              <h2 className="text-lg font-semibold text-slate-900">Priority Alerts</h2>
+              <h2 className="text-lg font-semibold text-slate-900">
+                Priority Alerts
+              </h2>
             </div>
             <div className="p-6">
               {alerts.length === 0 ? (
@@ -177,21 +225,35 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="space-y-4 max-h-80 overflow-y-auto">
-                  {alerts.slice(0, 6).map(alert => {
+                  {alerts.slice(0, 6).map((alert) => {
                     const Icon = alert.icon;
-                    const bgColor = alert.type === 'error' ? 'bg-red-50' : alert.type === 'warning' ? 'bg-amber-50' : 'bg-blue-50';
-                    const iconColor = alert.type === 'error' ? 'text-red-500' : alert.type === 'warning' ? 'text-amber-500' : 'text-blue-500';
-                    
+                    const bgColor =
+                      alert.type === "error"
+                        ? "bg-red-50"
+                        : alert.type === "warning"
+                        ? "bg-amber-50"
+                        : "bg-blue-50";
+                    const iconColor =
+                      alert.type === "error"
+                        ? "text-red-500"
+                        : alert.type === "warning"
+                        ? "text-amber-500"
+                        : "text-blue-500";
+
                     return (
                       <Link
                         key={alert.id}
-                        href={alert.link}
+                        href={`${alert.link}?returnTo=/dashboard`}
                         className={`flex items-start gap-4 p-4 rounded-lg ${bgColor} hover:opacity-80 transition-opacity`}
                       >
                         <Icon className={`w-5 h-5 mt-0.5 ${iconColor}`} />
                         <div className="flex-1">
-                          <p className="font-medium text-slate-900">{alert.title}</p>
-                          <p className="text-sm text-slate-600">{alert.description}</p>
+                          <p className="font-medium text-slate-900">
+                            {alert.title}
+                          </p>
+                          <p className="text-sm text-slate-600">
+                            {alert.description}
+                          </p>
                         </div>
                         <ArrowRight className="w-5 h-5 text-slate-400" />
                       </Link>
@@ -207,42 +269,61 @@ export default function DashboardPage() {
         <div>
           <div className="bg-white rounded-xl shadow-sm">
             <div className="p-6 border-b border-slate-100">
-              <h2 className="text-lg font-semibold text-slate-900">Active Incidents</h2>
+              <h2 className="text-lg font-semibold text-slate-900">
+                Active Incidents
+              </h2>
             </div>
             <div className="p-6">
               {activeIncidents.length === 0 ? (
                 <div className="text-center py-8">
                   <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-3xl font-bold text-green-600">{daysSinceLastIncident}</span>
+                    <span className="text-3xl font-bold text-green-600">
+                      {daysSinceLastIncident}
+                    </span>
                   </div>
                   <p className="text-slate-600">Days since last incident</p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {activeIncidents.slice(0, 3).map(incident => (
+                  {activeIncidents.slice(0, 3).map((incident) => (
                     <Link
                       key={incident.id}
-                      href={`/incidents/${incident.id}`}
+                      href={`/incidents/${incident.id}?returnTo=/dashboard`}
                       className="block p-4 rounded-lg border border-slate-200 hover:border-orange-300 transition-colors"
                     >
                       <div className="flex items-center gap-2 mb-2">
-                        <span className={`px-2 py-0.5 text-xs font-medium rounded ${
-                          incident.severity === 'Critical' ? 'bg-red-100 text-red-700' :
-                          incident.severity === 'Severe' ? 'bg-orange-100 text-orange-700' :
-                          incident.severity === 'Moderate' ? 'bg-yellow-100 text-yellow-700' :
-                          'bg-green-100 text-green-700'
-                        }`}>
+                        <span
+                          className={`px-2 py-0.5 text-xs font-medium rounded ${
+                            incident.severity === "Critical"
+                              ? "bg-red-100 text-red-700"
+                              : incident.severity === "Severe"
+                              ? "bg-orange-100 text-orange-700"
+                              : incident.severity === "Moderate"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-green-100 text-green-700"
+                          }`}
+                        >
                           {incident.severity}
                         </span>
-                        <span className="text-xs text-slate-500">{incident.status}</span>
+                        <span className="text-xs text-slate-500">
+                          {incident.status}
+                        </span>
                       </div>
-                      <p className="font-medium text-slate-900 text-sm">{incident.title}</p>
-                      <p className="text-xs text-slate-500 mt-1">{format(parseISO(incident.dateTime), 'MMM d, yyyy')}</p>
+                      <p className="font-medium text-slate-900 text-sm">
+                        {incident.title}
+                      </p>
+                      <p className="text-xs text-slate-500 mt-1">
+                        {format(parseISO(incident.dateTime), "MMM d, yyyy")}
+                      </p>
                     </Link>
                   ))}
                   {activeIncidents.length > 3 && (
-                    <Link href="/incidents" className="text-sm text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1">
-                      View all {activeIncidents.length} incidents <ArrowRight className="w-4 h-4" />
+                    <Link
+                      href="/incidents"
+                      className="text-sm text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1"
+                    >
+                      View all {activeIncidents.length} incidents{" "}
+                      <ArrowRight className="w-4 h-4" />
                     </Link>
                   )}
                 </div>
@@ -257,20 +338,26 @@ export default function DashboardPage() {
         {/* Recent Activity */}
         <div className="bg-white rounded-xl shadow-sm">
           <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-slate-900">Recent Activity</h2>
+            <h2 className="text-lg font-semibold text-slate-900">
+              Recent Activity
+            </h2>
             <div className="flex bg-slate-100 rounded-lg p-1">
               <button
-                onClick={() => setActivityView('weekly')}
+                onClick={() => setActivityView("weekly")}
                 className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                  activityView === 'weekly' ? 'bg-white shadow text-slate-900' : 'text-slate-600'
+                  activityView === "weekly"
+                    ? "bg-white shadow text-slate-900"
+                    : "text-slate-600"
                 }`}
               >
                 Weekly
               </button>
               <button
-                onClick={() => setActivityView('monthly')}
+                onClick={() => setActivityView("monthly")}
                 className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                  activityView === 'monthly' ? 'bg-white shadow text-slate-900' : 'text-slate-600'
+                  activityView === "monthly"
+                    ? "bg-white shadow text-slate-900"
+                    : "text-slate-600"
                 }`}
               >
                 Monthly
@@ -280,16 +367,26 @@ export default function DashboardPage() {
           <div className="p-6">
             <div className="space-y-6">
               <div>
-                <h3 className="text-sm font-medium text-slate-500 mb-3">Recent Incidents</h3>
+                <h3 className="text-sm font-medium text-slate-500 mb-3">
+                  Recent Incidents
+                </h3>
                 <div className="space-y-3">
-                  {recentIncidents.map(incident => (
+                  {recentIncidents.map((incident) => (
                     <div key={incident.id} className="flex items-center gap-3">
                       <div className="w-2 h-2 rounded-full bg-orange-500" />
                       <div className="flex-1">
-                        <Link href={`/incidents/${incident.id}`} className="text-sm font-medium text-slate-900 hover:text-orange-600">
+                        <Link
+                          href={`/incidents/${incident.id}?returnTo=/dashboard`}
+                          className="text-sm font-medium text-slate-900 hover:text-orange-600"
+                        >
                           {incident.title}
                         </Link>
-                        <p className="text-xs text-slate-500">{format(parseISO(incident.dateTime), 'MMM d, yyyy h:mm a')}</p>
+                        <p className="text-xs text-slate-500">
+                          {format(
+                            parseISO(incident.dateTime),
+                            "MMM d, yyyy h:mm a"
+                          )}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -297,19 +394,31 @@ export default function DashboardPage() {
               </div>
 
               <div>
-                <h3 className="text-sm font-medium text-slate-500 mb-3">Completed Training</h3>
+                <h3 className="text-sm font-medium text-slate-500 mb-3">
+                  Completed Training
+                </h3>
                 <div className="space-y-3">
-                  {recentTrainingCompleted.map(({ employee, assignment, training }) => (
-                    <div key={assignment.id} className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-green-500" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-900">
-                          {employee.name} completed {training.title}
-                        </p>
-                        <p className="text-xs text-slate-500">{format(parseISO(assignment.completedDate!), 'MMM d, yyyy')}</p>
+                  {recentTrainingCompleted.map(
+                    ({ employee, assignment, training }) => (
+                      <div
+                        key={assignment.id}
+                        className="flex items-center gap-3"
+                      >
+                        <div className="w-2 h-2 rounded-full bg-green-500" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-slate-900">
+                            {employee.name} completed {training.title}
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            {format(
+                              parseISO(assignment.completedDate!),
+                              "MMM d, yyyy"
+                            )}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -319,38 +428,58 @@ export default function DashboardPage() {
         {/* Incident Heatmap */}
         <div className="bg-white rounded-xl shadow-sm">
           <div className="p-6 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-slate-900">Incident Heatmap</h2>
+            <h2 className="text-lg font-semibold text-slate-900">
+              Incident Heatmap
+            </h2>
             <div className="flex items-center gap-2">
-              <button onClick={() => changeMonth(-1)} className="p-1 hover:bg-slate-100 rounded">
+              <button
+                onClick={() => changeMonth(-1)}
+                className="p-1 hover:bg-slate-100 rounded"
+              >
                 <ChevronLeft className="w-5 h-5 text-slate-600" />
               </button>
               <span className="text-sm font-medium text-slate-700 min-w-[120px] text-center">
                 {monthName} {year}
               </span>
-              <button onClick={() => changeMonth(1)} className="p-1 hover:bg-slate-100 rounded">
+              <button
+                onClick={() => changeMonth(1)}
+                className="p-1 hover:bg-slate-100 rounded"
+              >
                 <ChevronRight className="w-5 h-5 text-slate-600" />
               </button>
             </div>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-7 gap-2">
-              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
-                <div key={i} className="text-center text-xs font-medium text-slate-400 pb-2">
+              {["S", "M", "T", "W", "T", "F", "S"].map((day, i) => (
+                <div
+                  key={i}
+                  className="text-center text-xs font-medium text-slate-400 pb-2"
+                >
                   {day}
                 </div>
               ))}
               {/* Add empty cells for proper day alignment */}
-              {Array.from({ length: new Date(parseInt(year), parseInt(month) - 1, 1).getDay() }).map((_, i) => (
+              {Array.from({
+                length: new Date(
+                  parseInt(year),
+                  parseInt(month) - 1,
+                  1
+                ).getDay(),
+              }).map((_, i) => (
                 <div key={`empty-${i}`} />
               ))}
               {heatmapData.map(({ day, count }) => (
                 <div
                   key={day}
                   className={`aspect-square rounded flex items-center justify-center text-xs ${
-                    count === 0 ? 'bg-slate-100 text-slate-400' :
-                    count === 1 ? 'bg-orange-200 text-orange-800' :
-                    count === 2 ? 'bg-orange-400 text-white' :
-                    'bg-orange-600 text-white'
+                    count === 0
+                      ? "bg-slate-100 text-slate-400"
+                      : count === 1
+                      ? "bg-orange-200 text-orange-800"
+                      : count === 2
+                      ? "bg-orange-400 text-white"
+                      : "bg-orange-600 text-white"
                   }`}
                   title={`${day} - ${count} incident(s)`}
                 >
@@ -383,7 +512,9 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <div className="mt-8 bg-white rounded-xl shadow-sm">
         <div className="p-6 border-b border-slate-100">
-          <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
+          <h2 className="text-lg font-semibold text-slate-900">
+            Quick Actions
+          </h2>
         </div>
         <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
@@ -394,8 +525,12 @@ export default function DashboardPage() {
               <Clock className="w-5 h-5 text-red-600" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">View Overdue Training</p>
-              <p className="text-sm text-slate-500">{overdueTraining.length} assignments overdue</p>
+              <p className="font-medium text-slate-900">
+                View Overdue Training
+              </p>
+              <p className="text-sm text-slate-500">
+                {overdueTraining.length} assignments overdue
+              </p>
             </div>
           </Link>
 
@@ -407,8 +542,12 @@ export default function DashboardPage() {
               <FileWarning className="w-5 h-5 text-amber-600" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">Review Outdated Modules</p>
-              <p className="text-sm text-slate-500">{outdatedModules.length} modules need updates</p>
+              <p className="font-medium text-slate-900">
+                Review Outdated Modules
+              </p>
+              <p className="text-sm text-slate-500">
+                {outdatedModules.length} modules need updates
+              </p>
             </div>
           </Link>
 
@@ -420,8 +559,13 @@ export default function DashboardPage() {
               <AlertTriangle className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <p className="font-medium text-slate-900">Review Pending Incidents</p>
-              <p className="text-sm text-slate-500">{incidents.filter(i => i.status === 'Reported').length} pending review</p>
+              <p className="font-medium text-slate-900">
+                Review Pending Incidents
+              </p>
+              <p className="text-sm text-slate-500">
+                {incidents.filter((i) => i.status === "Reported").length}{" "}
+                pending review
+              </p>
             </div>
           </Link>
         </div>
