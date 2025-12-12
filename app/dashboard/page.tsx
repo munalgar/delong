@@ -26,14 +26,20 @@ import {
   getOutdatedModules,
   incidentHeatmapData,
   getTrainingById,
+  getIncidentsByDate,
 } from "@/lib/mock-data";
 import { format, parseISO } from "date-fns";
+import IncidentModal from "@/components/IncidentModal";
+import { Incident } from "@/lib/types";
 
 export default function DashboardPage() {
   const [activityView, setActivityView] = useState<"weekly" | "monthly">(
     "weekly"
   );
   const [heatmapMonth, setHeatmapMonth] = useState("2024-11");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedIncidents, setSelectedIncidents] = useState<Incident[]>([]);
 
   const activeIncidents = getActiveIncidents().sort(
     (a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()
@@ -138,6 +144,18 @@ export default function DashboardPage() {
       newYear++;
     }
     setHeatmapMonth(`${newYear}-${String(newMonth).padStart(2, "0")}`);
+  };
+
+  const handleDayClick = (day: number) => {
+    const [y, m] = heatmapMonth.split("-").map(Number);
+    const dateStr = `${y}-${String(m).padStart(2, "0")}-${String(day).padStart(
+      2,
+      "0"
+    )}`;
+    const dayIncidents = getIncidentsByDate(y, m, day);
+    setSelectedDate(dateStr);
+    setSelectedIncidents(dayIncidents);
+    setModalOpen(true);
   };
 
   return (
@@ -470,21 +488,22 @@ export default function DashboardPage() {
                 <div key={`empty-${i}`} />
               ))}
               {heatmapData.map(({ day, count }) => (
-                <div
+                <button
                   key={day}
-                  className={`aspect-square rounded flex items-center justify-center text-xs ${
+                  onClick={() => handleDayClick(day)}
+                  className={`aspect-square rounded flex items-center justify-center text-xs transition-all hover:scale-110 hover:shadow-md cursor-pointer ${
                     count === 0
-                      ? "bg-slate-100 text-slate-400"
+                      ? "bg-slate-100 text-slate-400 hover:bg-slate-200"
                       : count === 1
-                      ? "bg-orange-200 text-orange-800"
+                      ? "bg-orange-200 text-orange-800 hover:bg-orange-300"
                       : count === 2
-                      ? "bg-orange-400 text-white"
-                      : "bg-orange-600 text-white"
+                      ? "bg-orange-400 text-white hover:bg-orange-500"
+                      : "bg-orange-600 text-white hover:bg-orange-700"
                   }`}
                   title={`${day} - ${count} incident(s)`}
                 >
                   {day}
-                </div>
+                </button>
               ))}
             </div>
             <div className="flex items-center justify-center gap-4 mt-4 text-xs text-slate-500">
@@ -570,6 +589,14 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Incident Modal */}
+      <IncidentModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        date={selectedDate}
+        incidents={selectedIncidents}
+      />
     </div>
   );
 }
