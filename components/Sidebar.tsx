@@ -14,10 +14,12 @@ import {
   Shield,
   ChevronLeft,
   ChevronRight,
+  Calendar,
 } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/calendar", label: "Calendar", icon: Calendar },
   { href: "/employees", label: "Employees", icon: Users },
   { href: "/training", label: "Training", icon: GraduationCap },
   { href: "/incidents", label: "Incidents", icon: AlertTriangle },
