@@ -119,6 +119,32 @@ export const trainingModules: TrainingModule[] = [
     isOutdated: false,
     version: "2.8",
   },
+  {
+    id: "tm-009",
+    title: "Defensive Driving for Commercial Vehicles",
+    description: "Safe driving practices for commercial vehicle operators.",
+    content:
+      "Covers hazard recognition, space management, speed control, adverse conditions, and emergency maneuvers for commercial drivers.",
+    duration: "4 hours",
+    department: "Logistics",
+    createdDate: "2024-01-15",
+    lastUpdated: "2024-10-20",
+    isOutdated: false,
+    version: "2.0",
+  },
+  {
+    id: "tm-010",
+    title: "Grain Dust Explosion Prevention",
+    description: "Understanding and preventing grain dust explosions in storage facilities.",
+    content:
+      "Covers dust accumulation hazards, ignition sources, housekeeping requirements, explosion venting, and emergency response procedures.",
+    duration: "2 hours",
+    department: "Grain Handling",
+    createdDate: "2024-03-01",
+    lastUpdated: "2024-11-15",
+    isOutdated: false,
+    version: "1.5",
+  },
 ];
 
 // Employees
@@ -142,8 +168,8 @@ export const employees: Employee[] = [
       {
         id: "cert-002",
         name: "First Aid/CPR",
-        issuedDate: "2023-01-20",
-        expirationDate: "2025-01-20",
+        issuedDate: "2023-02-20",
+        expirationDate: "2025-02-20",
         status: "expiring-soon",
       },
     ],
@@ -161,8 +187,8 @@ export const employees: Employee[] = [
         id: "ta-002",
         trainingId: "tm-005",
         employeeId: "emp-001",
-        assignedDate: "2024-11-01",
-        dueDate: "2024-12-15",
+        assignedDate: "2024-12-01",
+        dueDate: "2025-01-15",
         status: "in-progress",
       },
       {
@@ -195,7 +221,7 @@ export const employees: Employee[] = [
       },
       {
         id: "cert-004",
-        name: "OSHA 30-Hour",
+        name: "OSHA 30-Hour General Industry",
         issuedDate: "2022-05-15",
         expirationDate: "2027-05-15",
         status: "valid",
@@ -227,6 +253,14 @@ export const employees: Employee[] = [
         completedDate: "2024-10-20",
         status: "complete",
       },
+      {
+        id: "ta-019",
+        trainingId: "tm-009",
+        employeeId: "emp-002",
+        assignedDate: "2024-12-15",
+        dueDate: "2025-01-30",
+        status: "not-started",
+      },
     ],
     incidentIds: [],
     complianceStatus: "at-risk",
@@ -242,16 +276,16 @@ export const employees: Employee[] = [
     certifications: [
       {
         id: "cert-006",
-        name: "Electrical Safety",
+        name: "Electrical Safety Qualified Person",
         issuedDate: "2024-01-15",
-        expirationDate: "2026-01-15",
+        expirationDate: "2027-01-15",
         status: "valid",
       },
       {
         id: "cert-007",
-        name: "Welding Certification",
+        name: "AWS Welding Certification",
         issuedDate: "2023-11-01",
-        expirationDate: "2025-11-01",
+        expirationDate: "2026-11-01",
         status: "valid",
       },
       {
@@ -296,9 +330,9 @@ export const employees: Employee[] = [
     certifications: [
       {
         id: "cert-009",
-        name: "Pesticide Applicator",
+        name: "Commercial Pesticide Applicator",
         issuedDate: "2024-04-01",
-        expirationDate: "2026-04-01",
+        expirationDate: "2027-04-01",
         status: "valid",
       },
       {
@@ -306,6 +340,13 @@ export const employees: Employee[] = [
         name: "First Aid/CPR",
         issuedDate: "2024-06-15",
         expirationDate: "2026-06-15",
+        status: "valid",
+      },
+      {
+        id: "cert-024",
+        name: "Certified Crop Adviser (CCA)",
+        issuedDate: "2021-08-15",
+        expirationDate: "2026-08-15",
         status: "valid",
       },
     ],
@@ -323,8 +364,8 @@ export const employees: Employee[] = [
         id: "ta-009",
         trainingId: "tm-006",
         employeeId: "emp-004",
-        assignedDate: "2024-11-15",
-        dueDate: "2024-12-20",
+        assignedDate: "2024-12-15",
+        dueDate: "2025-01-20",
         status: "not-started",
       },
     ],
@@ -342,16 +383,23 @@ export const employees: Employee[] = [
     certifications: [
       {
         id: "cert-011",
-        name: "OSHA 30-Hour",
+        name: "OSHA 30-Hour General Industry",
         issuedDate: "2021-10-15",
         expirationDate: "2026-10-15",
         status: "valid",
       },
       {
         id: "cert-012",
-        name: "First Aid/CPR",
+        name: "First Aid/CPR Instructor",
         issuedDate: "2024-09-01",
         expirationDate: "2026-09-01",
+        status: "valid",
+      },
+      {
+        id: "cert-025",
+        name: "Certified Safety Professional (CSP)",
+        issuedDate: "2022-03-15",
+        expirationDate: "2027-03-15",
         status: "valid",
       },
     ],
@@ -370,8 +418,9 @@ export const employees: Employee[] = [
         trainingId: "tm-007",
         employeeId: "emp-005",
         assignedDate: "2024-11-01",
-        dueDate: "2024-12-01",
-        status: "in-progress",
+        dueDate: "2024-12-15",
+        completedDate: "2024-12-10",
+        status: "complete",
       },
     ],
     incidentIds: [],
@@ -395,7 +444,7 @@ export const employees: Employee[] = [
       },
       {
         id: "cert-014",
-        name: "Food Safety",
+        name: "Food Safety (HACCP)",
         issuedDate: "2024-05-01",
         expirationDate: "2027-05-01",
         status: "valid",
@@ -415,8 +464,8 @@ export const employees: Employee[] = [
         trainingId: "tm-006",
         employeeId: "emp-006",
         assignedDate: "2024-11-01",
-        dueDate: "2024-12-01",
-        status: "not-started",
+        dueDate: "2024-12-15",
+        status: "overdue",
       },
       {
         id: "ta-014",
@@ -436,7 +485,7 @@ export const employees: Employee[] = [
     email: "rkim@delongsafety.com",
     phone: "(555) 789-0123",
     department: "Logistics",
-    role: "Truck Driver",
+    role: "Commercial Truck Driver",
     hireDate: "2020-11-15",
     certifications: [
       {
@@ -453,6 +502,13 @@ export const employees: Employee[] = [
         expirationDate: "2025-02-01",
         status: "expiring-soon",
       },
+      {
+        id: "cert-026",
+        name: "DOT Medical Card",
+        issuedDate: "2024-06-15",
+        expirationDate: "2026-06-15",
+        status: "valid",
+      },
     ],
     trainingAssignments: [
       {
@@ -460,7 +516,7 @@ export const employees: Employee[] = [
         trainingId: "tm-002",
         employeeId: "emp-007",
         assignedDate: "2024-10-01",
-        dueDate: "2024-12-01",
+        dueDate: "2025-01-15",
         status: "at-risk",
       },
       {
@@ -471,6 +527,14 @@ export const employees: Employee[] = [
         dueDate: "2024-10-30",
         completedDate: "2024-10-25",
         status: "complete",
+      },
+      {
+        id: "ta-020",
+        trainingId: "tm-009",
+        employeeId: "emp-007",
+        assignedDate: "2024-11-15",
+        dueDate: "2025-01-10",
+        status: "in-progress",
       },
     ],
     incidentIds: ["inc-004"],
@@ -487,9 +551,9 @@ export const employees: Employee[] = [
     certifications: [
       {
         id: "cert-017",
-        name: "EPA 608",
+        name: "EPA Section 608 Universal",
         issuedDate: "2023-05-15",
-        expirationDate: "2028-05-15",
+        expirationDate: "9999-12-31",
         status: "valid",
       },
       {
@@ -515,7 +579,191 @@ export const employees: Employee[] = [
         trainingId: "tm-008",
         employeeId: "emp-008",
         assignedDate: "2024-11-01",
-        dueDate: "2024-12-15",
+        dueDate: "2025-01-15",
+        status: "in-progress",
+      },
+    ],
+    incidentIds: [],
+    complianceStatus: "compliant",
+  },
+  {
+    id: "emp-009",
+    name: "Marcus Johnson",
+    email: "mjohnson@delongsafety.com",
+    phone: "(555) 901-2345",
+    department: "Grain Handling",
+    role: "Facility Supervisor",
+    hireDate: "2016-08-20",
+    certifications: [
+      {
+        id: "cert-019",
+        name: "Confined Space Entry",
+        issuedDate: "2024-08-10",
+        expirationDate: "2026-08-10",
+        status: "valid",
+      },
+      {
+        id: "cert-020",
+        name: "OSHA 30-Hour General Industry",
+        issuedDate: "2020-06-15",
+        expirationDate: "2025-06-15",
+        status: "valid",
+      },
+      {
+        id: "cert-027",
+        name: "Grain Fumigation Certification",
+        issuedDate: "2024-02-28",
+        expirationDate: "2027-02-28",
+        status: "valid",
+      },
+    ],
+    trainingAssignments: [
+      {
+        id: "ta-021",
+        trainingId: "tm-001",
+        employeeId: "emp-009",
+        assignedDate: "2024-07-01",
+        dueDate: "2024-08-15",
+        completedDate: "2024-08-10",
+        status: "complete",
+      },
+      {
+        id: "ta-022",
+        trainingId: "tm-010",
+        employeeId: "emp-009",
+        assignedDate: "2024-11-01",
+        dueDate: "2025-01-15",
+        status: "in-progress",
+      },
+    ],
+    incidentIds: [],
+    complianceStatus: "compliant",
+  },
+  {
+    id: "emp-010",
+    name: "Jennifer Walsh",
+    email: "jwalsh@delongsafety.com",
+    phone: "(555) 012-3456",
+    department: "Admin",
+    role: "Office Manager",
+    hireDate: "2019-11-04",
+    certifications: [
+      {
+        id: "cert-021",
+        name: "First Aid/CPR",
+        issuedDate: "2024-03-10",
+        expirationDate: "2026-03-10",
+        status: "valid",
+      },
+    ],
+    trainingAssignments: [
+      {
+        id: "ta-023",
+        trainingId: "tm-005",
+        employeeId: "emp-010",
+        assignedDate: "2024-10-15",
+        dueDate: "2024-12-01",
+        completedDate: "2024-11-28",
+        status: "complete",
+      },
+      {
+        id: "ta-024",
+        trainingId: "tm-007",
+        employeeId: "emp-010",
+        assignedDate: "2024-12-01",
+        dueDate: "2025-01-31",
+        status: "not-started",
+      },
+    ],
+    incidentIds: ["inc-005"],
+    complianceStatus: "compliant",
+  },
+  {
+    id: "emp-011",
+    name: "Carlos Mendez",
+    email: "cmendez@delongsafety.com",
+    phone: "(555) 234-6789",
+    department: "Agronomy",
+    role: "Agronomy Technician",
+    hireDate: "2022-06-15",
+    certifications: [
+      {
+        id: "cert-022",
+        name: "Commercial Pesticide Applicator",
+        issuedDate: "2022-09-01",
+        expirationDate: "2025-09-01",
+        status: "valid",
+      },
+      {
+        id: "cert-023",
+        name: "First Aid/CPR",
+        issuedDate: "2023-06-20",
+        expirationDate: "2025-06-20",
+        status: "valid",
+      },
+    ],
+    trainingAssignments: [
+      {
+        id: "ta-025",
+        trainingId: "tm-003",
+        employeeId: "emp-011",
+        assignedDate: "2024-08-15",
+        dueDate: "2024-10-01",
+        completedDate: "2024-09-28",
+        status: "complete",
+      },
+      {
+        id: "ta-026",
+        trainingId: "tm-006",
+        employeeId: "emp-011",
+        assignedDate: "2024-12-01",
+        dueDate: "2025-01-15",
+        status: "not-started",
+      },
+    ],
+    incidentIds: [],
+    complianceStatus: "compliant",
+  },
+  {
+    id: "emp-012",
+    name: "Kevin O'Brien",
+    email: "kobrien@delongsafety.com",
+    phone: "(555) 345-7890",
+    department: "Logistics",
+    role: "Forklift Operator",
+    hireDate: "2023-09-11",
+    certifications: [
+      {
+        id: "cert-028",
+        name: "Forklift Operator",
+        issuedDate: "2023-10-01",
+        expirationDate: "2026-10-01",
+        status: "valid",
+      },
+      {
+        id: "cert-029",
+        name: "First Aid/CPR",
+        issuedDate: "2023-09-20",
+        expirationDate: "2025-09-20",
+        status: "valid",
+      },
+    ],
+    trainingAssignments: [
+      {
+        id: "ta-027",
+        trainingId: "tm-002",
+        employeeId: "emp-012",
+        assignedDate: "2024-09-15",
+        dueDate: "2024-11-15",
+        completedDate: "2024-11-10",
+        status: "complete",
+      },
+      {
+        id: "ta-028",
+        trainingId: "tm-007",
+        employeeId: "emp-012",
+        assignedDate: "2024-11-20",
+        dueDate: "2025-01-20",
         status: "in-progress",
       },
     ],
@@ -535,7 +783,7 @@ export const incidents: Incident[] = [
     severity: "Moderate",
     department: "Maintenance",
     location: "Building A - Electrical Room",
-    dateTime: "2024-11-15T14:30:00",
+    dateTime: "2024-12-10T14:30:00",
     involvedEmployeeIds: ["emp-003"],
     status: "Under Review",
     photos: ["/placeholder-incident-1.jpg"],
@@ -551,12 +799,12 @@ export const incidents: Incident[] = [
     severity: "Severe",
     department: "Grain Handling",
     location: "Grain Storage Facility - Bin #4",
-    dateTime: "2024-11-20T09:15:00",
+    dateTime: "2024-12-18T09:15:00",
     involvedEmployeeIds: ["emp-001", "emp-006"],
-    status: "Reported",
+    status: "Under Review",
     photos: [],
     documents: [],
-    reportIds: [],
+    reportIds: ["rep-007"],
   },
   {
     id: "inc-003",
@@ -583,7 +831,7 @@ export const incidents: Incident[] = [
     severity: "Minor",
     department: "Logistics",
     location: "Loading Dock C",
-    dateTime: "2024-11-25T16:20:00",
+    dateTime: "2024-12-20T16:20:00",
     involvedEmployeeIds: ["emp-007"],
     status: "Under Review",
     photos: ["/placeholder-incident-3.jpg", "/placeholder-incident-4.jpg"],
@@ -599,12 +847,44 @@ export const incidents: Incident[] = [
     severity: "Minor",
     department: "Admin",
     location: "Building B - Break Room",
-    dateTime: "2024-11-29T12:15:00",
-    involvedEmployeeIds: [],
+    dateTime: "2024-12-05T12:15:00",
+    involvedEmployeeIds: ["emp-010"],
     status: "Closed",
     photos: [],
     documents: ["medical-report.pdf"],
     reportIds: ["rep-006"],
+  },
+  {
+    id: "inc-006",
+    title: "Forklift Tip-Over Near Miss",
+    description:
+      "Forklift began to tip while turning with elevated load. Operator immediately stopped and lowered load. Investigation found operator was exceeding safe speed for turn radius with elevated load.",
+    type: "Equipment Malfunction",
+    severity: "Moderate",
+    department: "Logistics",
+    location: "Warehouse A - Aisle 7",
+    dateTime: "2024-10-15T10:30:00",
+    involvedEmployeeIds: [],
+    status: "Closed",
+    photos: [],
+    documents: ["forklift-inspection.pdf", "operator-interview.pdf"],
+    reportIds: [],
+  },
+  {
+    id: "inc-007",
+    title: "Hearing Protection Compliance Issue",
+    description:
+      "During routine safety inspection, multiple employees were observed working near grain dryer without required hearing protection. Noise levels measured at 92 dB, exceeding 85 dB threshold.",
+    type: "Other",
+    severity: "Minor",
+    department: "Grain Handling",
+    location: "Grain Dryer Station",
+    dateTime: "2024-09-22T14:00:00",
+    involvedEmployeeIds: [],
+    status: "Closed",
+    photos: [],
+    documents: ["noise-survey.pdf"],
+    reportIds: [],
   },
 ];
 
@@ -622,7 +902,7 @@ An electrical arc flash occurred during routine maintenance on Panel B-12. The i
 Investigation revealed that the lockout/tagout procedure was not properly followed. The panel was not fully de-energized before cover removal.
 
 ## Training/Certification Status
-- Employee has current Electrical Safety certification (expires 2026-01-15)
+- Employee has current Electrical Safety certification (expires 2027-01-15)
 - Lockout/Tagout refresher training was completed 6 months ago
 - Recommendation: Additional verification step required before panel access
 
@@ -631,22 +911,22 @@ Investigation revealed that the lockout/tagout procedure was not properly follow
 2. Update lockout/tagout checklist
 3. Schedule refresher training for all maintenance personnel`,
     status: "Under Review",
-    createdAt: "2024-11-15T16:00:00",
+    createdAt: "2024-12-10T16:00:00",
     auditTrail: [
       {
-        timestamp: "2024-11-15T16:00:00",
+        timestamp: "2024-12-10T16:00:00",
         action: "Created",
         user: "David Wilson",
         details: "Initial report generated",
       },
       {
-        timestamp: "2024-11-16T09:30:00",
+        timestamp: "2024-12-11T09:30:00",
         action: "Updated",
         user: "David Wilson",
         details: "Added root cause analysis",
       },
       {
-        timestamp: "2024-11-17T14:00:00",
+        timestamp: "2024-12-12T14:00:00",
         action: "Submitted for Review",
         user: "David Wilson",
       },
@@ -667,7 +947,7 @@ Investigation revealed that the lockout/tagout procedure was not properly follow
 - Date of Birth: [REDACTED]
 
 **Incident Details:**
-- Date: November 15, 2024
+- Date: December 10, 2024
 - Time: 2:30 PM
 - Location: Building A - Electrical Room
 
@@ -677,10 +957,10 @@ Arc flash occurred during maintenance on electrical panel. Employee was wearing 
 **Classification:**
 Near-miss incident - No recordable injury`,
     status: "Draft",
-    createdAt: "2024-11-15T17:00:00",
+    createdAt: "2024-12-10T17:00:00",
     auditTrail: [
       {
-        timestamp: "2024-11-15T17:00:00",
+        timestamp: "2024-12-10T17:00:00",
         action: "Created",
         user: "System",
         details: "Auto-generated OSHA report",
@@ -771,15 +1051,15 @@ Delivery truck backed into loading dock support column causing minor property da
 2. Require spotter for all backing maneuvers
 3. Review dock layout for potential improvements`,
     status: "Under Review",
-    createdAt: "2024-11-25T17:30:00",
+    createdAt: "2024-12-20T17:30:00",
     auditTrail: [
       {
-        timestamp: "2024-11-25T17:30:00",
+        timestamp: "2024-12-20T17:30:00",
         action: "Created",
         user: "David Wilson",
       },
       {
-        timestamp: "2024-11-26T09:00:00",
+        timestamp: "2024-12-21T09:00:00",
         action: "Submitted for Review",
         user: "David Wilson",
       },
@@ -797,22 +1077,63 @@ Employee slipped on wet floor in break room, sustaining minor knee bruising.
 1. Purchased high-visibility wet floor signs
 2. Implemented new mopping schedule to avoid peak break times`,
     status: "Closed",
-    createdAt: "2024-10-30T14:00:00",
+    createdAt: "2024-12-05T14:00:00",
     auditTrail: [
       {
-        timestamp: "2024-10-30T14:00:00",
+        timestamp: "2024-12-05T14:00:00",
         action: "Created",
         user: "David Wilson",
       },
       {
-        timestamp: "2024-10-31T10:00:00",
+        timestamp: "2024-12-06T10:00:00",
         action: "Approved",
         user: "Sarah Chen",
       },
       {
-        timestamp: "2024-11-05T09:00:00",
+        timestamp: "2024-12-10T09:00:00",
         action: "Closed",
         user: "David Wilson",
+      },
+    ],
+  },
+  {
+    id: "rep-007",
+    incidentId: "inc-002",
+    type: "Company Safety",
+    title: "Grain Bin Entry Violation - Investigation Report",
+    content: `## Incident Summary
+Employee entered grain bin #4 without proper confined space entry permit and without a safety observer present. A coworker noticed the violation and immediately alerted supervision.
+
+## Investigation Findings
+- Employee bypassed required permit process
+- No atmospheric testing was performed
+- Safety observer was not assigned
+- Employee's Confined Space Entry certification is current
+
+## Root Cause Analysis
+- Employee felt time pressure to complete task
+- Inadequate supervision during shift change
+- Permit station location inconvenient
+
+## Corrective Actions
+1. Disciplinary action per company policy
+2. Mandatory confined space entry refresher for all Grain Handling employees
+3. Relocate permit station closer to bin access points
+4. Implement buddy system for all bin entries`,
+    status: "Under Review",
+    createdAt: "2024-12-18T11:00:00",
+    auditTrail: [
+      {
+        timestamp: "2024-12-18T11:00:00",
+        action: "Created",
+        user: "David Wilson",
+        details: "Initial investigation report",
+      },
+      {
+        timestamp: "2024-12-19T14:30:00",
+        action: "Updated",
+        user: "Marcus Johnson",
+        details: "Added supervisor statement",
       },
     ],
   },
@@ -823,55 +1144,55 @@ export const chatConversations: ChatConversation[] = [
   {
     id: "chat-001",
     title: "Q4 Compliance Overview",
-    createdAt: "2024-11-20T10:00:00",
-    updatedAt: "2024-11-20T10:15:00",
+    createdAt: "2024-12-20T10:00:00",
+    updatedAt: "2024-12-20T10:15:00",
     messages: [
       {
         id: "msg-001",
         role: "user",
         content: "What is our current overall compliance rate?",
-        timestamp: "2024-11-20T10:00:00",
+        timestamp: "2024-12-20T10:00:00",
       },
       {
         id: "msg-002",
         role: "assistant",
         content:
           "Based on the current data, your overall compliance rate is 78.5%. Here's the breakdown by department:\n\n- **Admin:** 95%\n- **Maintenance:** 92%\n- **Agronomy:** 88%\n- **Logistics:** 75%\n- **Grain Handling:** 62%\n\nThe Grain Handling department needs attention, with 2 employees having overdue training and 1 expired certification.",
-        timestamp: "2024-11-20T10:00:30",
+        timestamp: "2024-12-20T10:00:30",
       },
       {
         id: "msg-003",
         role: "user",
         content: "Who in Grain Handling has overdue training?",
-        timestamp: "2024-11-20T10:05:00",
+        timestamp: "2024-12-20T10:05:00",
       },
       {
         id: "msg-004",
         role: "assistant",
         content:
-          "In the Grain Handling department, the following employees have overdue training:\n\n1. **John Martinez (emp-001)**\n   - PPE Selection & Use - Due: Nov 30, 2024 (OVERDUE)\n\n2. **Lisa Anderson (emp-006)**\n   - Grain Bin Entry Safety - Due: Sep 15, 2024 (OVERDUE)\n   - Fire Safety & Emergency Response - Due: Oct 15, 2024 (OVERDUE)\n\nLisa Anderson is flagged as non-compliant and should be prioritized.",
-        timestamp: "2024-11-20T10:05:30",
+          "In the Grain Handling department, the following employees have overdue training:\n\n1. **John Martinez (emp-001)**\n   - PPE Selection & Use - Due: Nov 30, 2024 (OVERDUE)\n\n2. **Lisa Anderson (emp-006)**\n   - Grain Bin Entry Safety - Due: Sep 15, 2024 (OVERDUE)\n   - Fire Safety & Emergency Response - Due: Oct 15, 2024 (OVERDUE)\n   - PPE Selection & Use - Due: Dec 15, 2024 (OVERDUE)\n\nLisa Anderson is flagged as non-compliant and should be prioritized.",
+        timestamp: "2024-12-20T10:05:30",
       },
     ],
   },
   {
     id: "chat-002",
     title: "Recent Incidents Analysis",
-    createdAt: "2024-11-25T14:00:00",
-    updatedAt: "2024-11-25T14:20:00",
+    createdAt: "2024-12-22T14:00:00",
+    updatedAt: "2024-12-22T14:20:00",
     messages: [
       {
         id: "msg-005",
         role: "user",
         content: "Summarize the incidents from this month",
-        timestamp: "2024-11-25T14:00:00",
+        timestamp: "2024-12-22T14:00:00",
       },
       {
         id: "msg-006",
         role: "assistant",
         content:
-          "Here's a summary of incidents from November 2024:\n\n**Total Incidents:** 3\n\n1. **Arc Flash Near-Miss** (Nov 15)\n   - Severity: Moderate\n   - Department: Maintenance\n   - Status: Under Review\n\n2. **Grain Bin Entry Violation** (Nov 20)\n   - Severity: Severe\n   - Department: Grain Handling\n   - Status: Reported\n\n3. **Vehicle Backing Incident** (Nov 25)\n   - Severity: Minor\n   - Department: Logistics\n   - Status: Under Review\n\n**Key Pattern:** 2 of 3 incidents involved procedural violations rather than equipment failure.",
-        timestamp: "2024-11-25T14:00:45",
+          "Here's a summary of incidents from December 2024:\n\n**Total Incidents:** 4\n\n1. **Slip and Fall - Break Room** (Dec 5)\n   - Severity: Minor\n   - Department: Admin\n   - Status: Closed\n\n2. **Arc Flash Near-Miss** (Dec 10)\n   - Severity: Moderate\n   - Department: Maintenance\n   - Status: Under Review\n\n3. **Grain Bin Entry Violation** (Dec 18)\n   - Severity: Severe\n   - Department: Grain Handling\n   - Status: Under Review\n\n4. **Vehicle Backing Incident** (Dec 20)\n   - Severity: Minor\n   - Department: Logistics\n   - Status: Under Review\n\n**Key Pattern:** 2 of 4 incidents involved procedural violations rather than equipment failure.",
+        timestamp: "2024-12-22T14:00:45",
       },
     ],
   },
@@ -887,10 +1208,10 @@ export const incidentTrendData: IncidentTrendData[] = [
   { date: "2024-06", incidents: 3, compliance: 86 },
   { date: "2024-07", incidents: 2, compliance: 84 },
   { date: "2024-08", incidents: 4, compliance: 80 },
-  { date: "2024-09", incidents: 3, compliance: 79 },
-  { date: "2024-10", incidents: 2, compliance: 81 },
-  { date: "2024-11", incidents: 3, compliance: 78 },
-  { date: "2024-12", incidents: 1, compliance: 79 },
+  { date: "2024-09", incidents: 2, compliance: 79 },
+  { date: "2024-10", incidents: 1, compliance: 81 },
+  { date: "2024-11", incidents: 1, compliance: 80 },
+  { date: "2024-12", incidents: 4, compliance: 78 },
 ];
 
 // Department compliance over time
@@ -957,6 +1278,39 @@ export const incidentDistribution = [
 
 // Heatmap data for monthly incidents
 export const incidentHeatmapData = {
+  "2024-12": [
+    { day: 1, count: 0 },
+    { day: 2, count: 0 },
+    { day: 3, count: 0 },
+    { day: 4, count: 0 },
+    { day: 5, count: 1 },
+    { day: 6, count: 0 },
+    { day: 7, count: 0 },
+    { day: 8, count: 0 },
+    { day: 9, count: 0 },
+    { day: 10, count: 1 },
+    { day: 11, count: 0 },
+    { day: 12, count: 0 },
+    { day: 13, count: 0 },
+    { day: 14, count: 0 },
+    { day: 15, count: 0 },
+    { day: 16, count: 0 },
+    { day: 17, count: 0 },
+    { day: 18, count: 1 },
+    { day: 19, count: 0 },
+    { day: 20, count: 1 },
+    { day: 21, count: 0 },
+    { day: 22, count: 0 },
+    { day: 23, count: 0 },
+    { day: 24, count: 0 },
+    { day: 25, count: 0 },
+    { day: 26, count: 0 },
+    { day: 27, count: 0 },
+    { day: 28, count: 0 },
+    { day: 29, count: 0 },
+    { day: 30, count: 0 },
+    { day: 31, count: 0 },
+  ],
   "2024-11": [
     { day: 1, count: 0 },
     { day: 2, count: 0 },
@@ -966,38 +1320,6 @@ export const incidentHeatmapData = {
     { day: 6, count: 0 },
     { day: 7, count: 0 },
     { day: 8, count: 1 },
-    { day: 9, count: 0 },
-    { day: 10, count: 0 },
-    { day: 11, count: 0 },
-    { day: 12, count: 0 },
-    { day: 13, count: 0 },
-    { day: 14, count: 0 },
-    { day: 15, count: 1 },
-    { day: 16, count: 0 },
-    { day: 17, count: 0 },
-    { day: 18, count: 0 },
-    { day: 19, count: 0 },
-    { day: 20, count: 1 },
-    { day: 21, count: 0 },
-    { day: 22, count: 0 },
-    { day: 23, count: 0 },
-    { day: 24, count: 0 },
-    { day: 25, count: 1 },
-    { day: 26, count: 0 },
-    { day: 27, count: 0 },
-    { day: 28, count: 0 },
-    { day: 29, count: 0 },
-    { day: 30, count: 0 },
-  ],
-  "2024-10": [
-    { day: 1, count: 0 },
-    { day: 2, count: 0 },
-    { day: 3, count: 0 },
-    { day: 4, count: 0 },
-    { day: 5, count: 1 },
-    { day: 6, count: 0 },
-    { day: 7, count: 0 },
-    { day: 8, count: 0 },
     { day: 9, count: 0 },
     { day: 10, count: 0 },
     { day: 11, count: 0 },
@@ -1019,8 +1341,72 @@ export const incidentHeatmapData = {
     { day: 27, count: 0 },
     { day: 28, count: 0 },
     { day: 29, count: 0 },
-    { day: 30, count: 1 },
+    { day: 30, count: 0 },
+  ],
+  "2024-10": [
+    { day: 1, count: 0 },
+    { day: 2, count: 0 },
+    { day: 3, count: 0 },
+    { day: 4, count: 0 },
+    { day: 5, count: 0 },
+    { day: 6, count: 0 },
+    { day: 7, count: 0 },
+    { day: 8, count: 0 },
+    { day: 9, count: 0 },
+    { day: 10, count: 0 },
+    { day: 11, count: 0 },
+    { day: 12, count: 0 },
+    { day: 13, count: 0 },
+    { day: 14, count: 0 },
+    { day: 15, count: 1 },
+    { day: 16, count: 0 },
+    { day: 17, count: 0 },
+    { day: 18, count: 0 },
+    { day: 19, count: 0 },
+    { day: 20, count: 0 },
+    { day: 21, count: 0 },
+    { day: 22, count: 0 },
+    { day: 23, count: 0 },
+    { day: 24, count: 0 },
+    { day: 25, count: 0 },
+    { day: 26, count: 0 },
+    { day: 27, count: 0 },
+    { day: 28, count: 0 },
+    { day: 29, count: 0 },
+    { day: 30, count: 0 },
     { day: 31, count: 0 },
+  ],
+  "2024-09": [
+    { day: 1, count: 0 },
+    { day: 2, count: 0 },
+    { day: 3, count: 0 },
+    { day: 4, count: 0 },
+    { day: 5, count: 0 },
+    { day: 6, count: 0 },
+    { day: 7, count: 0 },
+    { day: 8, count: 0 },
+    { day: 9, count: 0 },
+    { day: 10, count: 0 },
+    { day: 11, count: 0 },
+    { day: 12, count: 0 },
+    { day: 13, count: 0 },
+    { day: 14, count: 0 },
+    { day: 15, count: 0 },
+    { day: 16, count: 0 },
+    { day: 17, count: 0 },
+    { day: 18, count: 0 },
+    { day: 19, count: 0 },
+    { day: 20, count: 0 },
+    { day: 21, count: 0 },
+    { day: 22, count: 1 },
+    { day: 23, count: 0 },
+    { day: 24, count: 0 },
+    { day: 25, count: 0 },
+    { day: 26, count: 0 },
+    { day: 27, count: 0 },
+    { day: 28, count: 0 },
+    { day: 29, count: 0 },
+    { day: 30, count: 0 },
   ],
 };
 
