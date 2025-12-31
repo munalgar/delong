@@ -15,6 +15,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Calendar,
+  LogOut,
 } from "lucide-react";
 
 const navItems = [
@@ -103,15 +104,22 @@ export default function Sidebar() {
         </button>
       </div>
 
-      {/* Switch to Employee View */}
+      {/* Switch to Employee View & Logout */}
       {!isMinimized && (
-        <div className="p-4 border-t border-slate-700">
+        <div className="p-4 border-t border-slate-700 space-y-2">
           <Link
             href="/employee/dashboard"
             className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
           >
             <ChevronRight className="w-4 h-4" />
             Switch to Employee View
+          </Link>
+          <Link
+            href="/login"
+            className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
           </Link>
         </div>
       )}
