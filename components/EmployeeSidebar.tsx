@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 import {
   LayoutDashboard,
   AlertTriangle,
@@ -10,20 +11,26 @@ import {
   GraduationCap,
   Award,
   MessageSquare,
-  Shield,
   ChevronLeft,
   ChevronRight,
   User,
   LogOut,
+  Settings,
 } from "lucide-react";
 
 const navItems = [
   { href: "/employee/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/employee/report-incident", label: "Report Incident", icon: AlertTriangle },
+  { href: "/employee/profile", label: "My Profile", icon: User },
+  {
+    href: "/employee/report-incident",
+    label: "Report Incident",
+    icon: AlertTriangle,
+  },
   { href: "/employee/calendar", label: "Calendar", icon: Calendar },
   { href: "/employee/training", label: "My Training", icon: GraduationCap },
   { href: "/employee/certifications", label: "My Certifications", icon: Award },
   { href: "/employee/chat", label: "AI Chat", icon: MessageSquare },
+  { href: "/employee/settings", label: "Settings", icon: Settings },
 ];
 
 export default function EmployeeSidebar() {
@@ -39,32 +46,47 @@ export default function EmployeeSidebar() {
       {/* Logo */}
       <div className="p-6 border-b border-slate-700">
         <Link href="/employee/dashboard" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center">
-            <Shield className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+            <Image
+              src="/delong-logo.svg"
+              alt="Delong Safety"
+              width={40}
+              height={40}
+            />
           </div>
           {!isMinimized && (
             <div>
               <h1 className="text-lg font-bold">Delong Safety</h1>
-              <p className="text-xs text-slate-400">Employee Portal</p>
+              <p className="text-xs text-slate-400">Employee</p>
             </div>
           )}
         </Link>
       </div>
 
       {/* Current User */}
-      {!isMinimized && (
-        <div className="px-4 py-3 border-b border-slate-700 bg-slate-800">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-emerald-600 rounded-full flex items-center justify-center">
-              <User className="w-5 h-5 text-white" />
-            </div>
+      <Link
+        href="/employee/profile"
+        className={`block border-b border-slate-700 bg-slate-800 hover:bg-slate-700 transition-colors ${
+          isMinimized ? "px-4 py-3" : "px-4 py-3"
+        }`}
+        title={isMinimized ? "My Profile" : undefined}
+      >
+        <div
+          className={`flex items-center ${
+            isMinimized ? "justify-center" : "gap-3"
+          }`}
+        >
+          <div className="w-10 h-10 bg-emerald-600 rounded-full flex items-center justify-center">
+            <User className="w-5 h-5 text-white" />
+          </div>
+          {!isMinimized && (
             <div>
               <p className="text-sm font-medium text-white">John Martinez</p>
               <p className="text-xs text-slate-400">Grain Handling</p>
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </Link>
 
       {/* Navigation */}
       <nav className="flex-1 p-4 overflow-y-auto">
@@ -98,16 +120,9 @@ export default function EmployeeSidebar() {
         </ul>
       </nav>
 
-      {/* Switch to Supervisor View & Logout */}
+      {/* Logout */}
       {!isMinimized && (
         <div className="p-4 border-t border-slate-700 space-y-2">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Switch to Supervisor View
-          </Link>
           <Link
             href="/login"
             className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
@@ -135,16 +150,6 @@ export default function EmployeeSidebar() {
           )}
         </button>
       </div>
-
-      {/* Footer */}
-      {!isMinimized && (
-        <div className="p-4 border-t border-slate-700">
-          <div className="text-xs text-slate-500 text-center">
-            <p>© 2024 Delong Safety</p>
-            <p>Employee Portal</p>
-          </div>
-        </div>
-      )}
     </aside>
   );
 }

@@ -22,7 +22,8 @@ export default function ChatPage() {
     useState<ChatConversation[]>(initialConversations);
   const [activeConversationId, setActiveConversationId] = useState<
     string | null
-  >(initialConversations[0]?.id || null);
+  >(null);
+  const [isNewChat, setIsNewChat] = useState(true);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [editingTitleId, setEditingTitleId] = useState<string | null>(null);
@@ -38,15 +39,8 @@ export default function ChatPage() {
   }, [activeConversation?.messages]);
 
   const createNewConversation = () => {
-    const newConversation: ChatConversation = {
-      id: `chat-${Date.now()}`,
-      title: "New Conversation",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      messages: [],
-    };
-    setConversations([newConversation, ...conversations]);
-    setActiveConversationId(newConversation.id);
+    setActiveConversationId(null);
+    setIsNewChat(true);
   };
 
   const deleteConversation = (id: string) => {
@@ -80,7 +74,7 @@ export default function ChatPage() {
   };
 
   const sendMessage = async () => {
-    if (!inputMessage.trim() || !activeConversationId) return;
+    if (!inputMessage.trim()) return;
 
     const userMessage: ChatMessage = {
       id: `msg-${Date.now()}`,
@@ -90,22 +84,40 @@ export default function ChatPage() {
     };
 
     const currentInput = inputMessage;
-    const currentConversation = conversations.find(
+    let currentConversationId = activeConversationId;
+    let currentConversation = conversations.find(
       (c) => c.id === activeConversationId
     );
 
-    // Add user message
-    setConversations(
-      conversations.map((c) =>
-        c.id === activeConversationId
-          ? {
-              ...c,
-              messages: [...c.messages, userMessage],
-              updatedAt: new Date().toISOString(),
-            }
-          : c
-      )
-    );
+    // If this is a new chat, create the conversation now
+    if (isNewChat || !activeConversationId) {
+      const newConversation: ChatConversation = {
+        id: `chat-${Date.now()}`,
+        title:
+          currentInput.slice(0, 30) + (currentInput.length > 30 ? "..." : ""),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        messages: [userMessage],
+      };
+      setConversations([newConversation, ...conversations]);
+      setActiveConversationId(newConversation.id);
+      setIsNewChat(false);
+      currentConversationId = newConversation.id;
+      currentConversation = newConversation;
+    } else {
+      // Add user message to existing conversation
+      setConversations(
+        conversations.map((c) =>
+          c.id === activeConversationId
+            ? {
+                ...c,
+                messages: [...c.messages, userMessage],
+                updatedAt: new Date().toISOString(),
+              }
+            : c
+        )
+      );
+    }
     setInputMessage("");
     setIsLoading(true);
 
@@ -135,17 +147,11 @@ export default function ChatPage() {
 
       setConversations((prev) =>
         prev.map((c) =>
-          c.id === activeConversationId
+          c.id === currentConversationId
             ? {
                 ...c,
                 messages: [...c.messages, assistantMessage],
                 updatedAt: new Date().toISOString(),
-                // Update title for new conversations
-                title:
-                  c.messages.length === 0
-                    ? currentInput.slice(0, 30) +
-                      (currentInput.length > 30 ? "..." : "")
-                    : c.title,
               }
             : c
         )
@@ -162,7 +168,7 @@ export default function ChatPage() {
       };
       setConversations((prev) =>
         prev.map((c) =>
-          c.id === activeConversationId
+          c.id === currentConversationId
             ? {
                 ...c,
                 messages: [...c.messages, errorMessage],
@@ -234,7 +240,10 @@ export default function ChatPage() {
                     </div>
                   ) : (
                     <button
-                      onClick={() => setActiveConversationId(conversation.id)}
+                      onClick={() => {
+                        setActiveConversationId(conversation.id);
+                        setIsNewChat(false);
+                      }}
                       className="w-full text-left p-3"
                     >
                       <div className="flex items-start gap-2">
@@ -477,14 +486,84 @@ export default function ChatPage() {
             </div>
           </>
         ) : (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center">
-              <MessageSquare className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-              <p className="text-slate-700">
-                Select a conversation or start a new chat
-              </p>
+          <>
+            {/* Chat Header for New Chat */}
+            <div className="bg-white border-b border-slate-200 px-6 py-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-orange-500" />
+                </div>
+                <div>
+                  <h2 className="font-semibold text-slate-900">
+                    New Conversation
+                  </h2>
+                  <p className="text-xs text-slate-500">
+                    Powered by Gemini 2.0 Flash
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
+
+            {/* New Chat Welcome */}
+            <div className="flex-1 overflow-y-auto p-6">
+              <div className="h-full flex flex-col items-center justify-center text-center">
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                  <Sparkles className="w-8 h-8 text-orange-500" />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                  Safety AI Assistant
+                </h3>
+                <p className="text-slate-700 max-w-md mb-6">
+                  Ask me about compliance rates, incident analysis, training
+                  status, or any safety-related questions about your
+                  organization.
+                </p>
+                <div className="grid grid-cols-2 gap-3 max-w-lg">
+                  {[
+                    "What is our current compliance rate?",
+                    "Show me recent incidents",
+                    "Who has overdue training?",
+                    "Which employees are at risk?",
+                  ].map((suggestion, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setInputMessage(suggestion)}
+                      className="p-3 text-left text-sm text-slate-700 bg-white rounded-lg border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition-colors"
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Input */}
+            <div className="bg-white border-t border-slate-200 p-4">
+              <div className="max-w-4xl mx-auto flex gap-4">
+                <input
+                  type="text"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      sendMessage();
+                    }
+                  }}
+                  placeholder="Ask about compliance, incidents, training, or employees..."
+                  className="flex-1 px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-slate-900 placeholder:text-slate-400"
+                  disabled={isLoading}
+                />
+                <button
+                  onClick={sendMessage}
+                  disabled={!inputMessage.trim() || isLoading}
+                  className="px-6 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>

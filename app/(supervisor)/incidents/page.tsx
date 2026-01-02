@@ -43,10 +43,10 @@ const incidentTypes: IncidentType[] = [
 
 const SeverityBadge = ({ severity }: { severity: Severity }) => {
   const styles = {
-    Minor: "bg-green-100 text-green-700",
-    Moderate: "bg-yellow-100 text-yellow-700",
-    Severe: "bg-orange-100 text-orange-700",
-    Critical: "bg-red-100 text-red-700",
+    Minor: "bg-yellow-100 text-yellow-700",
+    Moderate: "bg-orange-100 text-orange-700",
+    Severe: "bg-red-100 text-red-700",
+    Critical: "bg-red-700 text-white",
   };
 
   return (

@@ -50,7 +50,9 @@ export default function EmployeeCalendarPage() {
     // Training due dates
     currentEmployee.trainingAssignments.forEach((assignment) => {
       const dueDate = parseISO(assignment.dueDate);
-      const training = trainingModules.find((t) => t.id === assignment.trainingId);
+      const training = trainingModules.find(
+        (t) => t.id === assignment.trainingId
+      );
 
       events.push({
         id: `training-${assignment.id}`,
@@ -59,7 +61,9 @@ export default function EmployeeCalendarPage() {
         type: "training-due",
         status: assignment.status,
         link: "/employee/training",
-        details: `Due: ${format(dueDate, "MMM d, yyyy")} - Status: ${assignment.status}`,
+        details: `Due: ${format(dueDate, "MMM d, yyyy")} - Status: ${
+          assignment.status
+        }`,
       });
     });
 
@@ -71,13 +75,15 @@ export default function EmployeeCalendarPage() {
         id: `cert-${cert.id}`,
         title: cert.name,
         date: expirationDate,
-        type: cert.status === "expired" ? "certification-expired" : "certification-expiring",
+        type:
+          cert.status === "expired"
+            ? "certification-expired"
+            : "certification-expiring",
         status: cert.status,
         link: "/employee/certifications",
-        details: `${cert.status === "expired" ? "Expired" : "Expires"}: ${format(
-          expirationDate,
-          "MMM d, yyyy"
-        )}`,
+        details: `${
+          cert.status === "expired" ? "Expired" : "Expires"
+        }: ${format(expirationDate, "MMM d, yyyy")}`,
       });
     });
 
@@ -110,16 +116,19 @@ export default function EmployeeCalendarPage() {
   // Get color classes for event type
   const getEventColorClass = (type: string, status: string) => {
     if (type === "training-due") {
-      if (status === "complete") return "bg-green-100 text-green-700 border-green-200";
+      if (status === "complete")
+        return "bg-green-100 text-green-700 border-green-200";
       if (status === "overdue") return "bg-red-100 text-red-700 border-red-200";
-      if (status === "at-risk") return "bg-amber-100 text-amber-700 border-amber-200";
+      if (status === "at-risk")
+        return "bg-amber-100 text-amber-700 border-amber-200";
       return "bg-blue-100 text-blue-700 border-blue-200";
     }
     if (type === "certification-expired") {
       return "bg-red-100 text-red-700 border-red-200";
     }
     if (type === "certification-expiring") {
-      if (status === "expiring-soon") return "bg-amber-100 text-amber-700 border-amber-200";
+      if (status === "expiring-soon")
+        return "bg-amber-100 text-amber-700 border-amber-200";
       return "bg-green-100 text-green-700 border-green-200";
     }
     return "bg-slate-100 text-slate-700 border-slate-200";
@@ -198,11 +207,15 @@ export default function EmployeeCalendarPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-            <span className="text-sm text-slate-600">At Risk/Expiring Soon</span>
+            <span className="text-sm text-slate-600">
+              At Risk/Expiring Soon
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <span className="text-sm text-slate-600">Overdue/Expired</span>
+            <span className="text-sm text-slate-600">
+              Certification Overdue/Expired
+            </span>
           </div>
         </div>
       </div>
@@ -227,7 +240,8 @@ export default function EmployeeCalendarPage() {
             <div className="grid grid-cols-7">
               {calendarDays.map((day, idx) => {
                 const dayEvents = getEventsForDay(day);
-                const isCurrentMonth = day.getMonth() === currentDate.getMonth();
+                const isCurrentMonth =
+                  day.getMonth() === currentDate.getMonth();
                 const isDayToday = isToday(day);
                 const isSelected = selectedDate && isSameDay(day, selectedDate);
 
@@ -341,7 +355,9 @@ export default function EmployeeCalendarPage() {
                   {upcomingEvents.length === 0 ? (
                     <div className="text-center py-6">
                       <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-2" />
-                      <p className="text-sm text-slate-500">No upcoming deadlines!</p>
+                      <p className="text-sm text-slate-500">
+                        No upcoming deadlines!
+                      </p>
                     </div>
                   ) : (
                     <div className="space-y-2">

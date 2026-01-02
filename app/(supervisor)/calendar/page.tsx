@@ -221,10 +221,16 @@ export default function CalendarPage() {
       <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           {/* Month Navigation */}
-          <div className="flex items-center gap-4">
+          <button
+            onClick={goToToday}
+            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors text-sm font-medium"
+          >
+            Navigate to Current Month
+          </button>
+          <div className="flex items-center gap-4 mx-auto">
             <button
               onClick={previousMonth}
-              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors flex items-center justify-center"
             >
               <ChevronLeft className="w-5 h-5 text-slate-600" />
             </button>
@@ -233,22 +239,16 @@ export default function CalendarPage() {
             </h2>
             <button
               onClick={nextMonth}
-              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors flex items-center justify-center"
             >
               <ChevronRight className="w-5 h-5 text-slate-600" />
-            </button>
-            <button
-              onClick={goToToday}
-              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors text-sm font-medium"
-            >
-              Today
             </button>
           </div>
 
           {/* Filter Toggle */}
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ml-auto ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
               showFilters
                 ? "bg-orange-50 border-orange-300 text-orange-700"
                 : "border-slate-200 text-slate-600 hover:bg-slate-50"
@@ -331,7 +331,9 @@ export default function CalendarPage() {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <span className="text-sm text-slate-600">Overdue/Expired</span>
+            <span className="text-sm text-slate-600">
+              Cerification Overdue/Expired
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-purple-500"></div>

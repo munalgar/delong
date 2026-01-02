@@ -12,12 +12,10 @@ import {
   Sparkles,
   User,
   Bot,
-  HelpCircle,
 } from "lucide-react";
 import { format, parseISO } from "date-fns";
+import { employeeChatConversations as initialConversations } from "@/lib/mock-data";
 import { ChatConversation, ChatMessage } from "@/lib/types";
-
-const initialConversations: ChatConversation[] = [];
 
 export default function EmployeeChatPage() {
   const [conversations, setConversations] =
@@ -25,6 +23,7 @@ export default function EmployeeChatPage() {
   const [activeConversationId, setActiveConversationId] = useState<
     string | null
   >(null);
+  const [isNewChat, setIsNewChat] = useState(true);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [editingTitleId, setEditingTitleId] = useState<string | null>(null);
@@ -40,15 +39,8 @@ export default function EmployeeChatPage() {
   }, [activeConversation?.messages]);
 
   const createNewConversation = () => {
-    const newConversation: ChatConversation = {
-      id: `chat-${Date.now()}`,
-      title: "New Conversation",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      messages: [],
-    };
-    setConversations([newConversation, ...conversations]);
-    setActiveConversationId(newConversation.id);
+    setActiveConversationId(null);
+    setIsNewChat(true);
   };
 
   const deleteConversation = (id: string) => {
@@ -82,7 +74,7 @@ export default function EmployeeChatPage() {
   };
 
   const sendMessage = async () => {
-    if (!inputMessage.trim() || !activeConversationId) return;
+    if (!inputMessage.trim()) return;
 
     const userMessage: ChatMessage = {
       id: `msg-${Date.now()}`,
@@ -92,22 +84,40 @@ export default function EmployeeChatPage() {
     };
 
     const currentInput = inputMessage;
-    const currentConversation = conversations.find(
+    let currentConversationId = activeConversationId;
+    let currentConversation = conversations.find(
       (c) => c.id === activeConversationId
     );
 
-    // Add user message
-    setConversations(
-      conversations.map((c) =>
-        c.id === activeConversationId
-          ? {
-              ...c,
-              messages: [...c.messages, userMessage],
-              updatedAt: new Date().toISOString(),
-            }
-          : c
-      )
-    );
+    // If this is a new chat, create the conversation now
+    if (isNewChat || !activeConversationId) {
+      const newConversation: ChatConversation = {
+        id: `chat-${Date.now()}`,
+        title:
+          currentInput.slice(0, 30) + (currentInput.length > 30 ? "..." : ""),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        messages: [userMessage],
+      };
+      setConversations([newConversation, ...conversations]);
+      setActiveConversationId(newConversation.id);
+      setIsNewChat(false);
+      currentConversationId = newConversation.id;
+      currentConversation = newConversation;
+    } else {
+      // Add user message to existing conversation
+      setConversations(
+        conversations.map((c) =>
+          c.id === activeConversationId
+            ? {
+                ...c,
+                messages: [...c.messages, userMessage],
+                updatedAt: new Date().toISOString(),
+              }
+            : c
+        )
+      );
+    }
     setInputMessage("");
     setIsLoading(true);
 
@@ -138,17 +148,11 @@ export default function EmployeeChatPage() {
 
       setConversations((prev) =>
         prev.map((c) =>
-          c.id === activeConversationId
+          c.id === currentConversationId
             ? {
                 ...c,
                 messages: [...c.messages, assistantMessage],
                 updatedAt: new Date().toISOString(),
-                // Update title for new conversations
-                title:
-                  c.messages.length === 0
-                    ? currentInput.slice(0, 30) +
-                      (currentInput.length > 30 ? "..." : "")
-                    : c.title,
               }
             : c
         )
@@ -165,7 +169,7 @@ export default function EmployeeChatPage() {
       };
       setConversations((prev) =>
         prev.map((c) =>
-          c.id === activeConversationId
+          c.id === currentConversationId
             ? {
                 ...c,
                 messages: [...c.messages, errorMessage],
@@ -237,7 +241,10 @@ export default function EmployeeChatPage() {
                     </div>
                   ) : (
                     <button
-                      onClick={() => setActiveConversationId(conversation.id)}
+                      onClick={() => {
+                        setActiveConversationId(conversation.id);
+                        setIsNewChat(false);
+                      }}
                       className="w-full text-left p-3"
                     >
                       <div className="flex items-start gap-2">
@@ -324,7 +331,7 @@ export default function EmployeeChatPage() {
               {activeConversation.messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center">
                   <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                    <HelpCircle className="w-8 h-8 text-emerald-500" />
+                    <Sparkles className="w-8 h-8 text-emerald-500" />
                   </div>
                   <h3 className="text-xl font-semibold text-slate-900 mb-2">
                     Safety Help Center
@@ -480,20 +487,84 @@ export default function EmployeeChatPage() {
             </div>
           </>
         ) : (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center">
-              <MessageSquare className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-              <p className="text-slate-700 mb-4">
-                Start a new chat to get help with safety questions
-              </p>
-              <button
-                onClick={createNewConversation}
-                className="px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors font-medium"
-              >
-                Start New Chat
-              </button>
+          <>
+            {/* Chat Header for New Chat */}
+            <div className="bg-white border-b border-slate-200 px-6 py-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-emerald-500" />
+                </div>
+                <div>
+                  <h2 className="font-semibold text-slate-900">
+                    New Conversation
+                  </h2>
+                  <p className="text-xs text-slate-500">
+                    Safety Assistant - Powered by AI
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
+
+            {/* New Chat Welcome */}
+            <div className="flex-1 overflow-y-auto p-6">
+              <div className="h-full flex flex-col items-center justify-center text-center">
+                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                  <Sparkles className="w-8 h-8 text-emerald-500" />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">
+                  Safety Help Center
+                </h3>
+                <p className="text-slate-700 max-w-md mb-6">
+                  I&apos;m here to help you with safety questions, training
+                  information, certification requirements, and incident
+                  reporting guidance.
+                </p>
+                <div className="grid grid-cols-2 gap-3 max-w-lg">
+                  {[
+                    "What training do I need to complete?",
+                    "How do I report a safety concern?",
+                    "When does my certification expire?",
+                    "What PPE should I use for my job?",
+                  ].map((suggestion, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setInputMessage(suggestion)}
+                      className="p-3 text-left text-sm text-slate-700 bg-white rounded-lg border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50 transition-colors"
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Input */}
+            <div className="bg-white border-t border-slate-200 p-4">
+              <div className="max-w-4xl mx-auto flex gap-4">
+                <input
+                  type="text"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      sendMessage();
+                    }
+                  }}
+                  placeholder="Ask about safety procedures, training, certifications..."
+                  className="flex-1 px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-slate-900 placeholder:text-slate-400"
+                  disabled={isLoading}
+                />
+                <button
+                  onClick={sendMessage}
+                  disabled={!inputMessage.trim() || isLoading}
+                  className="px-6 py-3 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </div>

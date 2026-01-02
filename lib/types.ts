@@ -13,9 +13,18 @@ export interface Employee {
   complianceStatus: ComplianceStatus;
 }
 
-export type Department = 'Grain Handling' | 'Logistics' | 'Maintenance' | 'Agronomy' | 'Admin';
+export type Department =
+  | "Grain Handling"
+  | "Logistics"
+  | "Maintenance"
+  | "Agronomy"
+  | "Admin";
 
-export type ComplianceStatus = 'compliant' | 'in-progress' | 'at-risk' | 'non-compliant';
+export type ComplianceStatus =
+  | "compliant"
+  | "in-progress"
+  | "at-risk"
+  | "non-compliant";
 
 // Certification Types
 export interface Certification {
@@ -26,7 +35,7 @@ export interface Certification {
   status: CertificationStatus;
 }
 
-export type CertificationStatus = 'valid' | 'expiring-soon' | 'expired';
+export type CertificationStatus = "valid" | "expiring-soon" | "expired";
 
 // Training Types
 export interface TrainingModule {
@@ -35,7 +44,7 @@ export interface TrainingModule {
   description: string;
   content: string;
   duration: string;
-  department: Department | 'All';
+  department: Department | "All";
   createdDate: string;
   lastUpdated: string;
   isOutdated: boolean;
@@ -52,7 +61,12 @@ export interface TrainingAssignment {
   status: TrainingStatus;
 }
 
-export type TrainingStatus = 'not-started' | 'in-progress' | 'at-risk' | 'overdue' | 'complete';
+export type TrainingStatus =
+  | "not-started"
+  | "in-progress"
+  | "at-risk"
+  | "overdue"
+  | "complete";
 
 // Incident Types
 export interface Incident {
@@ -71,11 +85,18 @@ export interface Incident {
   reportIds: string[];
 }
 
-export type IncidentType = 'Slip/Fall' | 'Equipment Malfunction' | 'Chemical Exposure' | 'Ergonomic Injury' | 'Fire/Explosion' | 'Vehicle Incident' | 'Other';
+export type IncidentType =
+  | "Slip/Fall"
+  | "Equipment Malfunction"
+  | "Chemical Exposure"
+  | "Ergonomic Injury"
+  | "Fire/Explosion"
+  | "Vehicle Incident"
+  | "Other";
 
-export type Severity = 'Minor' | 'Moderate' | 'Severe' | 'Critical';
+export type Severity = "Minor" | "Moderate" | "Severe" | "Critical";
 
-export type IncidentStatus = 'Reported' | 'Under Review' | 'Closed';
+export type IncidentStatus = "Reported" | "Under Review" | "Closed";
 
 // Report Types
 export interface Report {
@@ -89,9 +110,14 @@ export interface Report {
   auditTrail: AuditEntry[];
 }
 
-export type ReportType = 'Company Safety' | 'OSHA';
+export type ReportType = "Company Safety" | "OSHA";
 
-export type ReportStatus = 'Draft' | 'Under Review' | 'Approved' | 'Denied' | 'Closed';
+export type ReportStatus =
+  | "Draft"
+  | "Under Review"
+  | "Approved"
+  | "Denied"
+  | "Closed";
 
 export interface AuditEntry {
   timestamp: string;
@@ -111,7 +137,7 @@ export interface ChatConversation {
 
 export interface ChatMessage {
   id: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   timestamp: string;
 }
@@ -131,11 +157,47 @@ export interface DepartmentCompliance {
 
 export interface Alert {
   id: string;
-  type: 'certification' | 'training' | 'incident' | 'module';
-  severity: 'warning' | 'error' | 'info';
+  type: "certification" | "training" | "incident" | "module";
+  severity: "warning" | "error" | "info";
   title: string;
   description: string;
   link?: string;
   employeeId?: string;
   trainingId?: string;
+}
+
+// User Profile Types
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  department: Department;
+  hireDate: string;
+  lastLogin: string;
+}
+
+export interface SupervisorProfile extends UserProfile {
+  employeesManaged: number;
+  certifications: string[];
+}
+
+export interface EmployeeProfile extends UserProfile {
+  supervisorId: string;
+  complianceStatus: ComplianceStatus;
+}
+
+export interface NotificationPreferences {
+  emailAlerts: boolean;
+  incidentNotifications: boolean;
+  trainingReminders: boolean;
+  certificationExpiry: boolean;
+}
+
+export interface UserSettings {
+  profile: UserProfile;
+  notifications: NotificationPreferences;
+  theme: "light" | "dark" | "system";
+  language: string;
 }

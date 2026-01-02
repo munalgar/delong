@@ -6,7 +6,61 @@ import {
   ChatConversation,
   IncidentTrendData,
   Department,
+  SupervisorProfile,
+  EmployeeProfile,
+  UserSettings,
 } from "./types";
+
+// Current User Profiles
+export const currentSupervisor: SupervisorProfile = {
+  id: "sup-001",
+  name: "Sarah Johnson",
+  email: "sarah.johnson@delongsafety.com",
+  phone: "(555) 123-4567",
+  role: "Safety Supervisor",
+  department: "Admin",
+  hireDate: "2019-03-15",
+  lastLogin: "2026-01-01T08:30:00Z",
+  employeesManaged: 24,
+  certifications: ["OSHA 30-Hour", "First Aid/CPR", "Hazmat Operations"],
+};
+
+export const currentEmployee: EmployeeProfile = {
+  id: "emp-001",
+  name: "John Martinez",
+  email: "john.martinez@delongsafety.com",
+  phone: "(555) 234-5678",
+  role: "Grain Handler",
+  department: "Grain Handling",
+  hireDate: "2021-06-01",
+  lastLogin: "2026-01-01T07:45:00Z",
+  supervisorId: "sup-001",
+  complianceStatus: "compliant",
+};
+
+export const supervisorSettings: UserSettings = {
+  profile: currentSupervisor,
+  notifications: {
+    emailAlerts: true,
+    incidentNotifications: true,
+    trainingReminders: true,
+    certificationExpiry: true,
+  },
+  theme: "light",
+  language: "en",
+};
+
+export const employeeSettings: UserSettings = {
+  profile: currentEmployee,
+  notifications: {
+    emailAlerts: true,
+    incidentNotifications: true,
+    trainingReminders: true,
+    certificationExpiry: true,
+  },
+  theme: "light",
+  language: "en",
+};
 
 // Training Modules
 export const trainingModules: TrainingModule[] = [
@@ -135,7 +189,8 @@ export const trainingModules: TrainingModule[] = [
   {
     id: "tm-010",
     title: "Grain Dust Explosion Prevention",
-    description: "Understanding and preventing grain dust explosions in storage facilities.",
+    description:
+      "Understanding and preventing grain dust explosions in storage facilities.",
     content:
       "Covers dust accumulation hazards, ignition sources, housekeeping requirements, explosion venting, and emergency response procedures.",
     duration: "2 hours",
@@ -1198,6 +1253,65 @@ export const chatConversations: ChatConversation[] = [
   },
 ];
 
+// Employee Chat Conversations (for employee portal)
+export const employeeChatConversations: ChatConversation[] = [
+  {
+    id: "emp-chat-001",
+    title: "PPE Requirements Question",
+    createdAt: "2024-12-18T09:00:00",
+    updatedAt: "2024-12-18T09:10:00",
+    messages: [
+      {
+        id: "emp-msg-001",
+        role: "user",
+        content: "What PPE do I need when working near the grain bins?",
+        timestamp: "2024-12-18T09:00:00",
+      },
+      {
+        id: "emp-msg-002",
+        role: "assistant",
+        content:
+          "When working near grain bins, you need the following PPE:\n\n**Required Equipment:**\n- **Hard Hat** - Protects against falling objects and overhead hazards\n- **Safety Glasses** - Shields eyes from dust and debris\n- **Dust Mask/N95 Respirator** - Essential for grain dust protection\n- **Steel-Toed Boots** - Required footwear in all grain handling areas\n- **High-Visibility Vest** - For visibility around moving equipment\n\n**Additional for Bin Entry:**\n- Full-body harness with lifeline\n- Atmospheric monitoring equipment\n\nRemember: Never enter a grain bin without proper authorization and a trained observer present. Would you like me to explain the bin entry procedures?",
+        timestamp: "2024-12-18T09:00:45",
+      },
+      {
+        id: "emp-msg-003",
+        role: "user",
+        content: "Yes, please explain the bin entry procedures",
+        timestamp: "2024-12-18T09:05:00",
+      },
+      {
+        id: "emp-msg-004",
+        role: "assistant",
+        content:
+          "Here are the grain bin entry procedures you must follow:\n\n**Before Entry:**\n1. Obtain a confined space entry permit from your supervisor\n2. Ensure all equipment (augers, conveyors) is locked out/tagged out\n3. Test the atmosphere for oxygen levels and toxic gases\n4. Have a trained observer stationed outside the bin\n\n**During Entry:**\n1. Wear your full-body harness attached to a lifeline\n2. Maintain communication with the outside observer\n3. Never walk on grain surface - use planks or platforms\n4. Exit immediately if you feel lightheaded or notice any issues\n\n**Emergency:**\n- The observer must never enter to rescue - call emergency services\n- Use the rescue equipment to extract the person\n\n⚠️ **Important:** Your Grain Bin Entry Safety training is due for renewal. Please complete it by December 30th.",
+        timestamp: "2024-12-18T09:05:30",
+      },
+    ],
+  },
+  {
+    id: "emp-chat-002",
+    title: "Incident Reporting Help",
+    createdAt: "2024-12-20T14:30:00",
+    updatedAt: "2024-12-20T14:40:00",
+    messages: [
+      {
+        id: "emp-msg-005",
+        role: "user",
+        content: "How do I report a near-miss incident?",
+        timestamp: "2024-12-20T14:30:00",
+      },
+      {
+        id: "emp-msg-006",
+        role: "assistant",
+        content:
+          "Great question! Reporting near-misses helps prevent future accidents. Here's how to report one:\n\n**Steps to Report a Near-Miss:**\n\n1. **Go to Report Incident** in your employee portal\n2. **Select Incident Type:** Choose \"Near Miss\"\n3. **Fill in the details:**\n   - Date and time of the incident\n   - Location (be specific)\n   - Description of what happened\n   - What could have happened if it escalated\n   - Any contributing factors\n\n**What Happens Next:**\n- Your supervisor will be notified\n- The safety team will review and investigate\n- You may be asked for additional details\n- Corrective actions will be implemented\n\n**Remember:** There's no penalty for reporting near-misses. In fact, reporting them is encouraged and helps keep everyone safe!\n\nWould you like me to guide you through reporting a specific incident?",
+        timestamp: "2024-12-20T14:30:30",
+      },
+    ],
+  },
+];
+
 // Trend Data for Analytics
 export const incidentTrendData: IncidentTrendData[] = [
   { date: "2024-01", incidents: 3, compliance: 82 },
@@ -1500,9 +1614,7 @@ export function getExpiredCertifications(): {
   return result;
 }
 
-export function getExpiringCertifications(
-  days: number
-): {
+export function getExpiringCertifications(days: number): {
   employee: Employee;
   certification: (typeof employees)[0]["certifications"][0];
 }[] {

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 import {
   LayoutDashboard,
   Users,
@@ -11,15 +12,17 @@ import {
   FileText,
   TrendingUp,
   MessageSquare,
-  Shield,
   ChevronLeft,
   ChevronRight,
   Calendar,
   LogOut,
+  User,
+  Settings,
 } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/profile", label: "My Profile", icon: User },
   { href: "/calendar", label: "Calendar", icon: Calendar },
   { href: "/employees", label: "Employees", icon: Users },
   { href: "/training", label: "Training", icon: GraduationCap },
@@ -27,6 +30,7 @@ const navItems = [
   { href: "/reports", label: "Reports", icon: FileText },
   { href: "/insights", label: "Insights", icon: TrendingUp },
   { href: "/chat", label: "AI Chat", icon: MessageSquare },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -42,17 +46,47 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="p-6 border-b border-slate-700">
         <Link href="/dashboard" className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-            <Shield className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+            <Image
+              src="/delong-logo.svg"
+              alt="Delong Safety"
+              width={40}
+              height={40}
+            />
           </div>
           {!isMinimized && (
             <div>
               <h1 className="text-lg font-bold">Delong Safety</h1>
-              <p className="text-xs text-slate-400">Safety Management</p>
+              <p className="text-xs text-slate-400">Supervisor</p>
             </div>
           )}
         </Link>
       </div>
+
+      {/* Current User */}
+      <Link
+        href="/profile"
+        className={`block border-b border-slate-700 bg-slate-800 hover:bg-slate-700 transition-colors ${
+          isMinimized ? "px-4 py-3" : "px-4 py-3"
+        }`}
+        title={isMinimized ? "My Profile" : undefined}
+      >
+        <div
+          className={`flex items-center ${
+            isMinimized ? "justify-center" : "gap-3"
+          }`}
+        >
+          <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+            <User className="w-5 h-5 text-white" />
+          </div>
+          {!isMinimized && (
+            <div>
+              <p className="text-sm font-medium text-white">Sarah Johnson</p>
+              <p className="text-xs text-slate-400">Safety Supervisor</p>
+            </div>
+          )}
+        </div>
+      </Link>
 
       {/* Navigation */}
       <nav className="flex-1 p-4 overflow-y-auto">
@@ -104,16 +138,9 @@ export default function Sidebar() {
         </button>
       </div>
 
-      {/* Switch to Employee View & Logout */}
+      {/* Logout */}
       {!isMinimized && (
         <div className="p-4 border-t border-slate-700 space-y-2">
-          <Link
-            href="/employee/dashboard"
-            className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
-          >
-            <ChevronRight className="w-4 h-4" />
-            Switch to Employee View
-          </Link>
           <Link
             href="/login"
             className="flex items-center gap-2 px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
@@ -121,16 +148,6 @@ export default function Sidebar() {
             <LogOut className="w-4 h-4" />
             Sign Out
           </Link>
-        </div>
-      )}
-
-      {/* Footer */}
-      {!isMinimized && (
-        <div className="p-4 border-t border-slate-700">
-          <div className="text-xs text-slate-500 text-center">
-            <p>© 2024 Delong Safety</p>
-            <p>Supervisor Portal</p>
-          </div>
         </div>
       )}
     </aside>
